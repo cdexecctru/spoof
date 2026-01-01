@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credos Project | HWID Spoofer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #a855f7; /* Neon Mor */
+            --secondary: #3b82f6; /* Parlak Mavi */
+            --bg-pure: #000000; /* Tam Siyah */
+            --card-bg: rgba(15, 15, 20, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+
+        body {
+            background-color: var(--bg-pure);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* --- KAR YAĞMA EFEKTİ --- */
+        #snow-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .content-wrapper { position: relative; z-index: 2; }
+
+        header {
+            padding: 100px 20px 60px;
+            text-align: center;
+        }
+
+        .logo-text {
+            font-size: 5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
+            letter-spacing: -1px;
+        }
+
+        .subtitle { 
+            color: #94a3b8; 
+            font-size: 1.1rem; 
+            margin-top: 15px; 
+            letter-spacing: 4px; 
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* --- ÖZELLİK KARTLARI --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 100px;
+        }
+
+        .f-card {
+            background: var(--card-bg);
+            padding: 40px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .f-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+            background: rgba(20, 20, 30, 0.95);
+        }
+
+        .f-card i { font-size: 2.5rem; margin-bottom: 15px; background: linear-gradient(var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .f-card h3 { font-size: 1rem; letter-spacing: 1px; color: #f1f5f9; }
+
+        /* --- FİYATLANDIRMA --- */
+        .price-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; font-weight: 800; text-transform: uppercase; }
+
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .p-card {
+            background: rgba(10, 10, 15, 0.8);
+            border-radius: 30px;
+            padding: 50px 30px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .p-card.featured {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.15);
+            position: relative;
+        }
+
+        .popular-tag {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .p-card h3 { font-size: 1.5rem; color: #94a3b8; }
+        .p-card .amount { font-size: 3.5rem; font-weight: 900; margin: 25px 0; color: #fff; }
+
+        .buy-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 18px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .buy-btn:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+            transform: scale(1.03);
+        }
+
+        footer { text-align: center; padding: 80px 20px; color: #334155; font-size: 0.9rem; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            .logo-text { font-size: 3rem; }
+            .price-grid { gap: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="snow-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <div class="logo-text">Credos</div>
+            <div class="subtitle">HWID Spoofer Project</div>
+        </header>
+
+        <div class="container">
+            <div class="features-grid">
+                <div class="f-card"><i class="fa-solid fa-microchip"></i><h3>HWPROFILEGUID</h3></div>
+                <div class="f-card"><i class="fa-solid fa-wifi"></i><h3>MAC ADDRESS</h3></div>
+                <div class="f-card"><i class="fa-solid fa-hard-drive"></i><h3>VOLUME ID</h3></div>
+                <div class="f-card"><i class="fa-solid fa-fingerprint"></i><h3>MACHINE GUID</h3></div>
+            </div>
+
+            <h2 class="price-title">Lisanslar</h2>
+            
+            <div class="price-grid">
+                <div class="p-card featured">
+                    <div class="popular-tag">ÖNERİLEN</div>
+                    <div>
+                        <h3>1 AYLIK</h3>
+                        <div class="amount">1200 TL</div>
+                    </div>
+                    <a href="https://discord.gg/GjtB9jAAYX" target="_blank" class="buy-btn"><i class="fa-brands fa-discord"></i> SATIN AL</a>
+                </div>
+
+                <div class="p-card">
+                    <div>
+                        <h3>1 HAFTALIK</h3>
+                        <div class="amount">1000 TL</div>
+                    </div>
+                    <a href="https://discord.gg/GjtB9jAAYX" target="_blank" class="buy-btn"><i class="fa-brands fa-discord"></i> SATIN AL</a>
+                </div>
+
+                <div class="p-card">
+                    <div>
+                        <h3>TEK KULLANIM</h3>
+                        <div class="amount">500 TL</div>
+                    </div>
+                    <a href="https://discord.gg/GjtB9jAAYX" target="_blank" class="buy-btn"><i class="fa-brands fa-discord"></i> SATIN AL</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CREDOS PROJECT | UNDETECTED HWID SOLUTION</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- KAR YAĞMA SİSTEMİ ---
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, flakes = [];
+
+        function init() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            flakes = [];
+            // Kar tanesi sayısı
+            for (let i = 0; i < 120; i++) {
+                flakes.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 2 + 1,
+                    speed: Math.random() * 0.8 + 0.3,
+                    opacity: Math.random() * 0.5 + 0.3
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            flakes.forEach(f => {
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
+                ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+                ctx.fill();
+                f.y += f.speed;
+                // Ekrandan çıkan karı yukarıdan geri başlat
+                if (f.y > height) f.y = -5;
+            });
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', init);
+        init();
+        draw();
+    </script>
+</body>
+</html>
